@@ -1,0 +1,56 @@
+Do wykorzystania baza sakila.
+
+Zad. 1 
+Dodaj nowego aktora do tabeli actor o imieniu Will i nazwisku Jacson.
+
+Zad. 2 
+Usuń kategorię, która nie jest przypisana do żadnego filmu.
+
+Zad. 3 
+Wyświetl wszystkich aktorów, których imię zaczyna się na literę C.
+
+Zad. 4 
+Tabela customer
+Wyświetl pierwszych 10 klientów posortowanych alfabetycznie po nazwisku. 
+
+
+--------------------------------------------------------------------
+
+Zad. 5
+Utwórz nową bazę danych o nazwie shop. Będzie ona przechowywać wszystkie tabele potrzebne do obsługi prostego sklepu internetowego.
+(Użyj: CREATE DATABASE)
+
+Zad. 6 Utworzenie tabeli klientów
+
+W bazie shop utwórz tabelę customers.
+Powinna zawierać następujące kolumny:
+
+id – liczba całkowita, automatyczne zwiększanie, klucz główny,
+first_name – imię (do 75 znaków),
+last_name – nazwisko (do 75 znaków),
+email – adres e-mail (unikalny),
+city – miasto (do 100 znaków).
+
+--------------------------------------------------------------------
+
+Wszystkie zadania wykonaj w bazie employees (skrypt do pobrania w pakiecie 3).
+
+Zad. 7 
+Znajdź dział, który ma największą liczbę pracowników.
+
+Zad. 8 
+Wyświetl listę pracowników i imiona, nazwiska oraz id ich kierowników.
+Użyj tabel employees, departments, dept_emp i dept_manager.
+
+Zad. 9
+Wyświetl pracowników, którzy zarabiają więcej niż średnia pensja w firmie.
+
+Zad. 10
+Utwórz użytkownika director z prawami: SELECT, INSERT, UPDATE do employees, bez DELETE.
+
+Zad. 11
+Przy pomocy terminala wykonaj pełną kopię bazy employees pod nową nazwą: employees_backup1.
+
+Zad. 12
+Wyświetl listę wszystkich kont w MySQL i wklej poniżej wynik. 
+

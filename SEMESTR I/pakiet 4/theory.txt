@@ -1,0 +1,183 @@
+Czym są użytkownicy w MySQL?
+
+Każdy użytkownik (np. administrator, dyrektor) to konto, które może łączyć się 
+z serwerem MySQL.Użytkownicy mogą mieć różne poziomy dostępu do baz danych, tabel 
+czy pojedynczych operacji.
+
+Tworzenie użytkownika
+Nowego użytkownika tworzymy poleceniem:
+CREATE USER 'nazwa_uzytkownika'@'localhost' IDENTIFIED BY 'haslo';
+
+Wyjaśnienie:
+'nazwa_uzytkownika' – login użytkownika (np. dyrektor).
+'localhost' – określa, że użytkownik może łączyć się tylko lokalnie.
+Jeśli chcesz, aby mógł łączyć się zdalnie, użyj '%' zamiast 'localhost'.
+'haslo' – hasło użytkownika.
+
+Przykład:
+CREATE USER 'dyrektor'@'localhost' IDENTIFIED BY 'Dyrektor@123';
+
+Wyjaśnienie:
+'nazwa_uzytkownika' – login użytkownika (np. dyrektor).
+'localhost' – określa, że użytkownik może łączyć się tylko lokalnie.
+Jeśli chcesz, aby mógł łączyć się zdalnie, użyj '%' zamiast 'localhost'.
+'haslo' – hasło użytkownika.
+
+----------------------------------------------------------
+
+Nadawanie uprawnień (GRANT)
+Aby użytkownik mógł coś zrobić w bazie, musimy nadać mu uprawnienia:
+
+GRANT rodzaje_uprawnien ON baza_danych.tabela TO 'uzytkownik'@'host';
+
+Wyjaśnienie:
+rodzaje_uprawnien – np. SELECT, INSERT, UPDATE, DELETE, ALL PRIVILEGES
+baza_danych.tabela – np. employees.* (cała baza) lub employees.departments 
+(tylko jedna tabela)
+TO 'uzytkownik'@'localhost' – określa, komu nadajemy uprawnienia
+
+Przykład:
+
+-- Nadajemy pełne uprawnienia do całej bazy
+GRANT ALL PRIVILEGES ON employees.* TO 'administrator'@'localhost';
+
+-- Tylko prawo do odczytu
+GRANT SELECT ON employees.* TO 'dyrektor'@'localhost';
+
+-- Tylko prawo do odczytu i wstawiania
+GRANT SELECT, INSERT ON employees.* TO 'manager'@'localhost';
+
+
+----------------------------------------------------------
+
+Odbieranie uprawnień
+
+Aby cofnąć uprawnienia używamy REVOKE. 
+
+REVOKE rodzaje_uprawnien ON baza_danych.tabela FROM 'uzytkownik'@'host';
+
+Przykład:
+REVOKE UPDATE ON employees.* FROM 'manager'@'localhost';
+
+----------------------------------------------------------
+
+Sprawdzanie uprawnień
+
+Aby sprawdzić jakie prawa ma użytkownik, należy wpisać:
+
+SHOW GRANTS FOR 'uzytkownik'@'host';
+
+----------------------------------------------------------
+
+Zmiana hasła użytkownika
+
+Hasło można zmienić za pomocą polecenia:
+
+ALTER USER 'nazwa_uzytkownika'@'host' IDENTIFIED BY 'nowe_haslo';
+
+Przykład:
+ALTER USER 'manager'@'localhost' IDENTIFIED BY 'NoweHaslo@2025';
+
+----------------------------------------------------------
+
+Usuwanie użytkownika
+
+Aby usunąć konto użytkownika z systemu:
+
+DROP USER 'nazwa_uzytkownika'@'host';
+
+Przykład:
+DROP USER 'pracownik'@'localhost';
+
+----------------------------------------------------------
+
+Odświeżanie uprawnień
+Po wprowadzeniu zmian w uprawnieniach warto wykonać:
+
+FLUSH PRIVILEGES;
+
+To odświeża listę uprawnień i natychmiast wprowadza zmiany w działaniu serwera.
+
+----------------------------------------------------------
+
+Najczęściej używane uprawnienia
+
+| Uprawnienie      | Opis                                |
+| ---------------- | ----------------------------------- |
+| `SELECT`         | Odczyt danych                       |
+| `INSERT`         | Dodawanie nowych rekordów           |
+| `UPDATE`         | Modyfikowanie istniejących rekordów |
+| `DELETE`         | Usuwanie danych                     |
+| `CREATE`         | Tworzenie tabel lub baz danych      |
+| `DROP`           | Usuwanie tabel lub baz danych       |
+| `ALTER`          | Modyfikacja struktury tabel         |
+| `CREATE VIEW`    | Tworzenie widoków                   |
+| `ALL PRIVILEGES` | Wszystkie uprawnienia               |
+
+
+----------------------------------------------------------
+
+Lista wszystkich użytkowników MySQL
+
+Aby zobaczyć wszystkich użytkowników w systemie:
+
+SELECT User, Host FROM mysql.user;
+
+
+----------------------------------------------------------
+
+Kopia zapasowa i przywracanie bazy danych w MySQL
+
+
+Co to jest kopia zapasowa?
+
+Kopia zapasowa (backup) to kopia danych, która umożliwia odzyskanie oryginalnych informacji w przypadku
+ich utraty lub uszkodzenia.Tworzenie kopii zapasowych to jedno z najważniejszych działań administracyjnych
+w pracy z bazami danych.
+
+Dlaczego warto wykonywać kopie zapasowe:
+
+aby chronić dane przed przypadkowym usunięciem lub błędem użytkownika,
+aby odzyskać dane po awarii serwera,
+aby przenieść bazę na inny komputer lub serwer,
+aby mieć historię zmian (archiwum).
+
+Narzędzie mysqldump
+
+MySQL udostępnia wbudowane narzędzie mysqldump do tworzenia kopii zapasowych baz danych.
+Narzędzie to eksportuje strukturę i dane bazy do pliku .sql, który można potem łatwo odtworzyć.
+
+Tworzenie kopii zapasowej:
+mysqldump -u [użytkownik] -p[hasło] [nazwa_bazy] > [plik_zapasowy.sql]
+
+Opis parametetrów: 
+
+-u [użytkownik] — nazwa użytkownika MySQL (np. root),
+-p[hasło] — hasło (bez spacji po -p),
+[nazwa_bazy] — nazwa bazy, którą chcesz zarchiwizować,
+> — przekierowanie wyniku do pliku,
+[plik_zapasowy.sql] — nazwa pliku, w którym zostanie zapisana kopia (np. backup.sql).
+
+Przykład:
+mysqldump -u root -p biblioteka > biblioteka_backup.sql
+
+
+Przywracanie kopii zapasowej
+
+Aby odtworzyć bazę z pliku .sql, użyj:
+mysql -u [użytkownik] -p[hasło] [nazwa_bazy] < [plik_zapasowy.sql]
+
+
+Praktyczne wskazówki
+
+Regularnie wykonuj kopie — np. raz w tygodniu lub po dużych zmianach.
+Przechowuj kopie zapasowe na innym dysku lub chmurze.
+Oznaczaj kopie datą, np. biblioteka_2025-10-16.sql.
+Upewnij się, że plik backupu nie zawiera błędów (można otworzyć w edytorze tekstu).
+Testuj proces przywracania — nie wystarczy tylko robić kopie, trzeba wiedzieć, że działają.
+
+
+Uwaga, kopie zapasowe, importy baz można również wykonywać w środowisku Xampp.
+Szczegóły w temacie nr 9 poniższego poradnika:
+
+https://home.agh.edu.pl/~pamalino/programowanie/mysql/#

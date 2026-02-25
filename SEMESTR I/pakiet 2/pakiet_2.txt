@@ -1,0 +1,181 @@
+1. Utworzenie bazy danych
+
+Utwórz nową bazę danych o nazwie shop. Będzie ona przechowywać wszystkie tabele potrzebne do obsługi prostego sklepu internetowego.
+(Użyj: CREATE DATABASE)
+
+---------------------------------------------------
+
+2. Utworzenie tabeli klientów
+
+W bazie shop utwórz tabelę customers.
+Powinna zawierać następujące kolumny:
+
+id – liczba całkowita, automatyczne zwiększanie, klucz główny,
+first_name – imię (do 50 znaków),
+last_name – nazwisko (do 50 znaków),
+email – adres e-mail (unikalny),
+city – miasto (do 50 znaków).
+
+(Użyj: CREATE TABLE, PRIMARY KEY, AUTO_INCREMENT, UNIQUE)
+
+---------------------------------------------------
+
+3. Utworzenie tabeli produktów
+
+Dodaj tabelę products, która przechowuje informacje o produktach.
+Kolumny:
+
+id – klucz główny, auto_increment,
+
+name – nazwa produktu (do 100 znaków),
+
+price – cena produktu (z dokładnością do grosza, np. DECIMAL(10,2)),
+
+stock – liczba sztuk dostępnych w magazynie (domyślnie 0).
+(Użyj: CREATE TABLE, DEFAULT)
+
+---------------------------------------------------
+
+4. Wstawianie klientów
+
+Dodaj do tabeli customers co najmniej 5 klientów, uzupełniając ich imię, nazwisko, adres e-mail i miasto. Zadbaj, aby przynajmniej dwóch klientów pochodziło z tego samego miasta.
+(Użyj: INSERT INTO ... VALUES)
+
+---------------------------------------------------
+
+5. Wstawianie produktów
+
+Dodaj do tabeli products co najmniej 5 produktów (np. „Róża”, „Tulipan”, „Goździk”, „Fiołek”, „Storczyk”), nadaj im różne ceny i określ stany magazynowe.
+(Użyj: INSERT INTO)
+
+---------------------------------------------------
+
+6. Aktualizacja danych klienta
+
+Zmień miasto klienta o id = 1 na „Warsaw”.
+(Użyj: UPDATE ... SET ... WHERE)
+
+---------------------------------------------------
+
+7. Usuwanie klienta
+
+Usuń klienta, którego nazwisko to „Nowak”.
+(Użyj: DELETE FROM ... WHERE)
+
+---------------------------------------------------
+
+8. Pobranie wszystkich klientów
+
+Wyświetl listę wszystkich klientów z tabeli customers, pobierając wszystkie kolumny.
+(Użyj: SELECT * FROM)
+
+---------------------------------------------------
+
+9. Unikalne miasta
+
+Pobierz listę wszystkich unikalnych miast, w których mieszkają klienci. Każde miasto powinno wystąpić tylko raz.
+(Użyj: SELECT DISTINCT)
+
+---------------------------------------------------
+
+10. Produkty droższe niż 50 zł
+
+---------------------------------------------------
+
+Wyświetl wszystkie produkty, których cena przekracza 50 zł.
+(Użyj: WHERE i operatora >)
+
+---------------------------------------------------
+
+11. Produkty w określonym przedziale
+
+Wyświetl produkty, których cena mieści się w przedziale od 30 do 100 zł (włącznie).
+(Użyj: BETWEEN)
+
+---------------------------------------------------
+
+12. Klienci na literę K
+
+Znajdź wszystkich klientów, których nazwisko zaczyna się na literę „K”.
+(Użyj: LIKE z %)
+
+---------------------------------------------------
+
+13. Wybrane produkty
+
+Wyświetl tylko te produkty, których nazwa to „Tulipan” lub „Róża”.
+(Użyj: IN)
+
+---------------------------------------------------
+
+14. Sortowanie produktów
+
+Pokaż wszystkie produkty, posortowane malejąco wg ceny (najpierw najdroższe).
+(Użyj: ORDER BY ... DESC)
+
+---------------------------------------------------
+
+15. Grupowanie klientów wg miasta
+
+Pogrupuj klientów według miasta i policz, ilu ich mieszka w każdym z miast.
+(Użyj: GROUP BY i COUNT)
+
+---------------------------------------------------
+
+16. Grupowanie z filtrem
+
+Pokaż tylko te miasta, w których mieszka więcej niż 1 klient.
+(Użyj: HAVING COUNT(*) > 1)
+
+---------------------------------------------------
+
+17. Najdroższe produkty
+
+Wyświetl 3 najdroższe produkty w tabeli products.
+(Użyj: ORDER BY ... LIMIT)
+
+---------------------------------------------------
+
+18. Utworzenie tabeli zamówień
+
+Dodaj tabelę orders z kolumnami:
+
+id – PK, auto_increment,
+
+customer_id – FK do customers(id),
+
+order_date – data złożenia zamówienia.
+Dodaj kilka przykładowych zamówień.
+(Użyj: CREATE TABLE, FOREIGN KEY, INSERT)
+
+---------------------------------------------------
+
+19. Utworzenie tabeli pozycji zamówienia
+
+Dodaj tabelę order_items z kolumnami:
+
+id – PK, auto_increment,
+
+order_id – FK do orders(id),
+
+product_id – FK do products(id),
+
+quantity – liczba sztuk danego produktu.
+Dodaj przykładowe pozycje zamówień.
+(Użyj: CREATE TABLE, FOREIGN KEY, INSERT)
+
+---------------------------------------------------
+
+20. Raport zamówień z klientami
+
+Pobierz zestawienie wszystkich zamówień, w którym znajdzie się:
+
+numer zamówienia,
+
+nazwisko klienta,
+
+nazwa produktu,
+
+liczba sztuk.
+
+Wskazówka: użyj JOIN pomiędzy order_items, orders, customers i products.

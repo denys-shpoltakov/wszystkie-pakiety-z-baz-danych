@@ -1,0 +1,176 @@
+Stwórz własny skrypt employees.sql
+Przeanlizuj, wklej oraz zapisz poniższe dane: 
+
+DROP DATABASE IF EXISTS employees;
+CREATE DATABASE employees CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE employees;
+
+CREATE TABLE departments (
+  dept_no CHAR(4) PRIMARY KEY,
+  dept_name VARCHAR(40) NOT NULL UNIQUE
+);
+
+CREATE TABLE employees (
+  emp_no INT PRIMARY KEY,
+  birth_date DATE NOT NULL,
+  first_name VARCHAR(14) NOT NULL,
+  last_name VARCHAR(16) NOT NULL,
+  gender ENUM('M','F') NOT NULL,
+  hire_date DATE NOT NULL
+);
+
+CREATE TABLE dept_emp (
+  emp_no INT NOT NULL,
+  dept_no CHAR(4) NOT NULL,
+  from_date DATE NOT NULL,
+  to_date DATE NOT NULL,
+  PRIMARY KEY (emp_no, dept_no, from_date),
+  FOREIGN KEY (emp_no) REFERENCES employees(emp_no),
+  FOREIGN KEY (dept_no) REFERENCES departments(dept_no)
+);
+
+CREATE TABLE titles (
+  emp_no INT NOT NULL,
+  title VARCHAR(50) NOT NULL,
+  from_date DATE NOT NULL,
+  to_date DATE DEFAULT '9999-01-01',
+  PRIMARY KEY (emp_no, title, from_date),
+  FOREIGN KEY (emp_no) REFERENCES employees(emp_no)
+);
+
+CREATE TABLE salaries (
+  emp_no INT NOT NULL,
+  salary INT NOT NULL,
+  from_date DATE NOT NULL,
+  to_date DATE DEFAULT '9999-01-01',
+  PRIMARY KEY (emp_no, from_date),
+  FOREIGN KEY (emp_no) REFERENCES employees(emp_no)
+);
+
+CREATE TABLE dept_manager (
+  dept_no CHAR(4) NOT NULL,
+  emp_no INT NOT NULL,
+  from_date DATE NOT NULL,
+  to_date DATE NOT NULL,
+  PRIMARY KEY (dept_no, emp_no),
+  FOREIGN KEY (dept_no) REFERENCES departments(dept_no),
+  FOREIGN KEY (emp_no) REFERENCES employees(emp_no)
+);
+
+INSERT INTO departments (dept_no, dept_name) VALUES
+('d001','Marketing'),
+('d002','Finance'),
+('d003','Human Resources'),
+('d004','Development');
+
+INSERT INTO employees (emp_no, birth_date, first_name, last_name, gender, hire_date) VALUES
+(10001,'1980-01-10','Georgi','Facello','M','2005-06-01'),
+(10002,'1979-06-14','Bezalel','Simmel','F','2006-07-15'),
+(10003,'1985-09-21','Parto','Bamford','M','2009-03-12'),
+(10004,'1990-11-02','Chirstian','Koblick','M','2012-01-09'),
+(10005,'1988-03-03','Kyoichi','Maliniak','M','2010-05-23'),
+(10006,'1992-12-12','Anneke','Preusig','F','2014-09-30'),
+(10007,'1987-07-07','Tzvetan','Zielinski','M','2011-11-01'),
+(10008,'1993-04-18','Saniya','Kalloufi','F','2015-04-20'),
+(10009,'1981-02-05','Sumant','Peac','M','2007-10-10'),
+(10010,'1986-08-08','Duangkaew','Piveteau','F','2013-06-18'),
+(10011,'1991-01-17','Mary','Sluis','F','2016-02-01'),
+(10012,'1984-05-05','Xavier','López','M','2008-04-01');
+
+INSERT INTO dept_manager (dept_no, emp_no, from_date, to_date) VALUES
+('d001',10001,'2018-01-01','9999-01-01'),
+('d002',10002,'2019-01-01','9999-01-01'),
+('d003',10003,'2020-01-01','9999-01-01'),
+('d004',10004,'2021-01-01','9999-01-01');
+
+INSERT INTO dept_emp (emp_no, dept_no, from_date, to_date) VALUES
+(10001,'d001','2005-06-01','9999-01-01'),
+(10002,'d002','2006-07-15','9999-01-01'),
+(10003,'d003','2009-03-12','2019-12-31'),
+(10003,'d004','2020-01-01','9999-01-01'),
+(10004,'d004','2012-01-09','9999-01-01'),
+(10005,'d004','2010-05-23','2018-12-31'),
+(10005,'d001','2019-01-01','9999-01-01'),
+(10006,'d001','2014-09-30','9999-01-01'),
+(10007,'d002','2011-11-01','9999-01-01'),
+(10008,'d003','2015-04-20','9999-01-01'),
+(10009,'d002','2007-10-10','2014-06-30'),
+(10009,'d001','2014-07-01','9999-01-01'),
+(10010,'d004','2013-06-18','9999-01-01'),
+(10011,'d003','2016-02-01','9999-01-01'),
+(10012,'d004','2008-04-01','2012-12-31'),
+(10012,'d002','2013-01-01','9999-01-01');
+
+INSERT INTO titles (emp_no, title, from_date, to_date) VALUES
+(10001,'Manager','2018-01-01','9999-01-01'),
+(10002,'Manager','2019-01-01','9999-01-01'),
+(10003,'Senior HR Specialist','2015-01-01','2019-12-31'),
+(10003,'Tech Lead','2020-01-01','9999-01-01'),
+(10004,'Senior Developer','2016-01-01','9999-01-01'),
+(10005,'Developer','2010-05-23','2018-12-31'),
+(10005,'Marketing Specialist','2019-01-01','9999-01-01'),
+(10006,'Marketing Analyst','2014-09-30','9999-01-01'),
+(10007,'Financial Analyst','2011-11-01','9999-01-01'),
+(10008,'HR Specialist','2015-04-20','9999-01-01'),
+(10009,'Accountant','2007-10-10','2014-06-30'),
+(10009,'Marketing Coordinator','2014-07-01','9999-01-01'),
+(10010,'Senior Developer','2018-06-01','9999-01-01'),
+(10011,'HR Coordinator','2016-02-01','9999-01-01'),
+(10012,'Developer','2008-04-01','2012-12-31'),
+(10012,'Financial Analyst','2013-01-01','9999-01-01');
+
+INSERT INTO salaries (emp_no, salary, from_date, to_date) VALUES
+(10001,90000,'2018-01-01','2021-12-31'),
+(10001,100000,'2022-01-01','9999-01-01'),
+(10002,88000,'2019-01-01','2021-12-31'),
+(10002,96000,'2022-01-01','9999-01-01'),
+(10003,70000,'2015-01-01','2019-12-31'),
+(10003,95000,'2020-01-01','9999-01-01'),
+(10004,85000,'2016-01-01','2017-12-31'),
+(10004,98000,'2018-01-01','9999-01-01'),
+(10005,60000,'2010-05-23','2018-12-31'),
+(10005,68000,'2019-01-01','9999-01-01'),
+(10006,62000,'2014-09-30','9999-01-01'),
+(10007,64000,'2011-11-01','2016-12-31'),
+(10007,78000,'2017-01-01','9999-01-01'),
+(10008,61000,'2015-04-20','2019-12-31'),
+(10008,72000,'2020-01-01','9999-01-01'),
+(10009,59000,'2007-10-10','2014-06-30'),
+(10009,67000,'2014-07-01','9999-01-01'),
+(10010,92000,'2018-06-01','9999-01-01'),
+(10011,58000,'2016-02-01','2019-12-31'),
+(10011,66000,'2020-01-01','9999-01-01'),
+(10012,63000,'2008-04-01','2012-12-31'),
+(10012,75000,'2013-01-01','9999-01-01');
+
+
+-------------------------------------------------------------------------
+
+Uruchom import pliku SQL (employees.sql) w terminalu MySQL.
+Jeśli import został wykonany poprawnie, po wpisaniu w MySQL
+
+SHOW TABLES;
+
+Powinny pojawić się takie tabele:
+
+| Tables_in_employees  |
++----------------------+
+| departments          |
+| dept_emp             |
+| dept_manager         |
+| employees            |
+| salaries             |
+| titles               |
+
+
+
+Co oznaczają poszczególne tabele?
+
+| Tabela                   | Opis                                                                                |
+| ------------------------ | ----------------------------------------------------------------------------------- |
+| **departments**          | Lista wszystkich działów w firmie                                                   |
+| **employees**            | Dane pracowników (imię, nazwisko, płeć, data zatrudnienia itp.)                     |
+| **dept_emp**             | Relacja między pracownikami a działami (kto gdzie pracuje)                          |
+| **dept_manager**         | Relacja między działami a ich menedżerami                                           |
+| **salaries**             | Historia wynagrodzeń każdego pracownika                                             |
+| **titles**               | Historia stanowisk pracowników (np. Engineer, Manager)                              |

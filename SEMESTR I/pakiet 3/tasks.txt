@@ -1,0 +1,55 @@
+Wszystkie zadania wykonaj w bazie employees.
+Używaj aliasów (AS), funkcji agregujących i grupowania (GROUP BY, HAVING).
+Każde zapytanie wpisz w przygotowanym miejscu.
+
+
+Zadanie 1
+Wyświetl listę wszystkich pracowników oraz nazw ich działów.
+Wykorzystaj tabele employees, dept_emp i departments.
+
+
+Zadanie 2
+Wyświetl listę pracowników i nazwiska ich kierowników.
+Użyj tabel employees, departments, dept_emp i dept_manager.
+
+
+Zadanie 3
+Wyświetl wszystkich pracowników, którzy pełnili funkcję kierownika działu.
+Połącz tabele dept_manager i employees.
+
+
+Zadanie 4
+Policz, ilu pracowników pracuje w każdym dziale.
+Skorzystaj z COUNT() i GROUP BY.
+
+
+Zadanie 5
+Znajdź dział, który ma największą liczbę pracowników.
+Użyj ORDER BY i LIMIT.
+
+
+Zadanie 6
+Wyświetl średnie wynagrodzenie w każdym dziale.
+Połącz tabele salaries, dept_emp i departments.
+
+
+Zadanie 7
+Pokaż pracowników, którzy zmieniali stanowiska (mieli więcej niż 1 tytuł).
+Skorzystaj z titles i funkcji COUNT(DISTINCT).
+
+
+Zadanie 8
+Wyświetl pracowników, którzy zarabiają więcej niż średnia pensja w firmie.
+Wykorzystaj podzapytanie w WHERE.
+
+
+Zadanie 9
+Znajdź pracownika, który aktualnie zarabia najwięcej.
+Użyj ORDER BY i LIMIT.
+
+
+Zadanie 10
+Wyświetl łączną sumę wszystkich wypłat w każdym dziale.
+Skorzystaj z SUM() i GROUP BY.
+
+

@@ -1,0 +1,40 @@
+Do wykonania zadań wykorzystaj bazę employees.
+
+Zadanie 1
+Utwórz użytkownika administrator (lokalnie), hasło Admin@123, z pełnym dostępem do wszystkich baz.
+
+Zadanie 2
+Utwórz użytkownika dyrektor z prawem tylko SELECT w bazie employees.
+
+Zadanie 3
+Utwórz użytkownika manager z prawami: SELECT, INSERT, UPDATE do employees, bez DELETE.
+
+Zadanie 4
+Wyświetl listę wszystkich kont w MySQL.
+
+Zadanie 5
+Sprawdź uprawnienia użytkowników: administrator, dyrektor, manager.
+
+Zadanie 6
+Odbierz użytkownikowi manager prawo UPDATE w employees.
+
+Zadanie 7
+Utwórz użytkownika pracownik (hasło Pracownik@123) z SELECT tylko do tabel employees i departments.
+
+Zadanie 8
+Nadaj dyrektor prawo tworzenia widoków w employees.
+
+Zadanie 9
+Zmień hasło manager na NoweHaslo@2025.
+
+Zadanie 10
+Usuń użytkownika pracownik.
+
+Zadanie 11
+Zrób pełną kopię bazy employees pod nową nazwą: employees_backup1.
+
+Zadanie 12
+Zrób drugą pełną kopię bazy employees pod inną nazwą: employees_backup2, tym razem z dopisaniem daty w pliku.
+
+Zadanie 13
+Przywróć bazę employees z kopii (np. z pliku z zadania 11 albo 12). Załóżmy, że chcesz nadpisać dane w istniejącej bazie employees.

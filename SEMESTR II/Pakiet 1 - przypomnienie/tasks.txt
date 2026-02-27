@@ -3,8 +3,15 @@ Do wykorzystania baza sakila.
 Zad. 1 
 Dodaj nowego aktora do tabeli actor o imieniu Will i nazwisku Jacson.
 
+INSERT INTO actor (first_name,last_name) VALUES ('Will', 'Jacson')
+
 Zad. 2 
 Usuń kategorię, która nie jest przypisana do żadnego filmu.
+
+DELETE FROM category
+    WHERE category_id NOT IN (
+    SELECT category_id FROM film_category
+    );
 
 Zad. 3 
 Wyświetl wszystkich aktorów, których imię zaczyna się na literę C.

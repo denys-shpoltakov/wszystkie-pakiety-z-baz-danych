@@ -1,0 +1,327 @@
+Dobre praktyki projektowania / tworzenia / zarządzania bazami danych:
+
+1. Tworzenie trzech poziomów modelu: konceptualnego, logicznego i fizycznego
+
+Zaleca się przygotowanie oddzielnych diagramów: konceptualnego — definiującego ogólne byty i relacje biznesowe; logicznego — bardziej szczegółowego, niezależnego od technologii; oraz fizycznego — dostosowanego do konkretnego systemu bazodanowego. Takie podejście oszczędza czas podczas zmian i ułatwia zrozumienie modelu przez innych członków zespołu.
+
+2. Stosowanie spójnych konwencji nazewnictwa
+
+Nazwy tabel, kolumn, kluczy itp. powinny być zgodne z ustalonym wzorem. To ułatwia pracę, a zmiany nazw w działającej bazie mogą powodować błędy w aplikacjach lub łamać integralność danych.
+
+3. Utrzymywanie aktualnej dokumentacji
+
+Diagramy i dokumentacja (np. słownik danych) muszą być na bieżąco aktualizowane, by odzwierciedlać zmiany struktury i ułatwiać jej zrozumienie.
+
+4. Normalizacja danych — minimalizacja redundancji
+
+Projektowanie powinno ograniczać powtarzanie informacji i zapewniać spójność danych. Trzymanie powtarzających się informacji w osobnych tabelach wspiera integralność i poprawia wydajność.
+
+5. Wybór właściwych typów danych i ograniczenie liczby pól
+
+Dobór optymalnych typów danych i rozsądna liczba kolumn (zalecenia mówią np. o maks. ok. 150 polach w tabeli) mają wpływ na wydajność i czytelność.
+
+6. Definiowanie kluczy głównych i obcych
+
+Każda tabela powinna mieć klucz główny definiujący unikatowy rekord, a relacje między tabelami – klucze obce. Utrzymuje to spójność i umożliwia logiczne powiązanie danych.
+
+7. Indeksy, ograniczenia i reguły walidacji
+
+Dobre praktyki obejmują stosowanie indeksów dla wydajniejszego dostępu, constraints (np. CHECK, UNIQUE), oraz walidacji na poziomie tabeli, co poprawia jakość danych.
+
+8. Dokumentowanie zmian i wersjonowanie schematu
+
+Projekt musi uwzględniać śledzenie zmian struktury i ewolucję schematu — zmiany powinny być wprowadzane kontrolowanie, ze śledzeniem wersji.
+
+9. Audyt danych (audit trail)
+
+Dodanie mechanizmów do śledzenia zmian w danych (np. pola z czasem modyfikacji) zwiększa transparentność i umożliwia śledzenie historii rekordów.
+
+10. Modularność i ponowne użycie komponentów
+
+Twórz modułowe elementy w DB: procedury składowane, widoki, trigger’y — co umożliwia wielokrotne wykorzystanie logiki i ułatwia utrzymanie.
+
+11. Prostota i współpraca między zespołami
+
+Stawiaj na prostotę modelu (łatwiejszy w użyciu przez użytkowników), a także współpracuj ściśle z DBA i programistami — zarówno przy projektowaniu, jak i późniejszych zmianach.
+
+12. Zrozumienie danych i wzorców użycia
+
+Przed projektowaniem konieczne jest zrozumienie: danych, ich powiązań, sposobu użycia i skali. To zapobiega błędom i zapewnia optymalny projekt.
+
+13. Przeciwdziałanie pułapkom modelowania — 'fan trap' i 'chasm trap'
+
+ERD może wprowadzać w błąd, jeśli relacje są źle skonstruowane. Fan trap polega na niespodziewanym zliczaniu powiązań, a chasm trap — na pominiętych powiązaniach między encjami.
+
+14. Zasada ortogonalnego projektowania (POOD)
+
+Relacje należy definiować tak, by nie przedstawiać tych samych faktów na różne sposoby — to eliminuje redundancję i niejednoznaczność.
+
+15. Refaktoryzacja schematu bazy danych
+
+Zmiany w schemacie (refaktoryzacja) należy wprowadzać tak, aby nie zmieniać semantyki danych, tj. system powinien nadal działać poprawnie w każdej fazie zmian.
+
+16. Modelowanie Data Vault (dla hurtowni danych)
+
+W przypadku hurtowni danych stosuje się model Data Vault — umożliwia przechowywanie wszystkich danych (również niespójnych), z audytem i śledzeniem źródeł, co poprawia skalowalność i elastyczność.
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+Dobre praktyki odnośnie nazewnictwa tabel / wierszy / zapytań SQL
+
+1. Wielkość liter w SQL
+
+Słowa kluczowe SQL (np. SELECT, FROM, WHERE, JOIN, INSERT, UPDATE) - WIELKIE LITERY
+Dzięki temu są czytelne i łatwo odróżnić je od nazw tabel i kolumn.
+
+Nazwy tabel i kolumn - małe litery
+Konsekwentne używanie małych liter zapobiega problemom w systemach wrażliwych na wielkość liter (np. Linux + MySQL).
+
+Przykład dobrego zapytania: 
+
+SELECT first_name, last_name
+FROM users
+WHERE status = 'active';
+
+Przykład błędnego stylu:
+
+select FirstName, LastName
+From Users
+where Status = 'active';
+
+
+
+2. Liczba mnoga czy pojedyncza?
+
+Tabele - liczba mnoga (bo zawierają wiele rekordów, np. users, orders, products).
+Kolumny - liczba pojedyncza (bo opisują pojedynczy atrybut rekordu, np. user_id, price, created_at).
+
+Przykład poprawnego nazewnictwa (według konwencji):
+
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(100) UNIQUE
+);
+
+
+Przykład niepoprawnego zapytania:
+CREATE TABLE user (  -- liczba pojedyncza, nie pasuje do zbioru danych
+    users_id INT,    -- liczba mnoga w kolumnie
+    names VARCHAR(50)
+);
+
+
+3. Nazewnictwo kluczy i kolumn
+Klucze główne (Primary Key)
+
+Nazwa: id albo nazwa_tabeli_id
+
+Jeśli tabela jest główna (np. users), można użyć po prostu id.
+
+W tabelach pośrednich (np. order_items) lepiej użyć pełnej nazwy: order_item_id.
+
+Klucze obce (Foreign Key)
+
+Nazwa: nazwa_tabeli_id
+np. w tabeli orders - user_id (powiązanie z users.id).
+
+Przykład:
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    total DECIMAL(10,2),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+
+4. Nazwy kolumn
+
+Czytelne, opisowe, małe litery.
+Snake_case (podkreślenia) zamiast camelCase (first_name, nie firstName).
+Nie używaj polskich znaków ani spacji (imie zamiast imię).
+Nie używaj słów zastrzeżonych (np. order, select, group). Jeśli musisz, używaj backticków: `order`.
+Daty i czas → z sufiksami _at (created_at, updated_at).
+Flagi/logiczne → prefiks is_ lub has_ (is_active, has_discount).
+Kwoty, wartości liczbowe → opisowe jednostki (price, quantity, amount).
+
+5. Nazewnictwo indeksów, constraintów i relacji
+
+Primary Key → pk_nazwatabeli
+Foreign Key → fk_tabela_kolumna
+Unique Key → uk_tabela_kolumna
+Indeks → idx_tabela_kolumna
+
+Przykład:
+CREATE TABLE products (
+    product_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    price DECIMAL(10,2) NOT NULL
+);
+
+CREATE TABLE order_items (
+    order_item_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT DEFAULT 1,
+    FOREIGN KEY fk_order_items_order (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY fk_order_items_product (product_id) REFERENCES products(product_id)
+);
+
+6. Styl zapytań
+
+Wcięcia i formatowanie: każda klauzula (SELECT, FROM, WHERE, JOIN) w nowej linii.
+Aliasowanie tabel: krótkie, ale czytelne (u dla users, o dla orders).
+JOIN-y: jawnie (INNER JOIN, LEFT JOIN), nie przecinki.
+
+Przykład dobrego stylu zapytania:
+SELECT o.order_id, u.first_name, u.last_name, p.name, oi.quantity
+FROM orders o
+INNER JOIN users u ON o.user_id = u.id
+INNER JOIN order_items oi ON o.order_id = oi.order_id
+INNER JOIN products p ON oi.product_id = p.product_id
+WHERE u.is_active = 1
+ORDER BY o.created_at DESC;
+
+Przykład mniej czytelnego zapytania:
+SELECT orders.order_id, users.firstName, products.name
+FROM orders, users, order_items, products
+WHERE orders.userId = users.id
+AND order_items.orderId = orders.id
+AND order_items.productId = products.id;
+
+7. Checklista dobrych praktyk:
+
+Słowa kluczowe SQL - WIELKIE LITERY
+Nazwy tabel i kolumn - małe litery, snake_case
+Tabele w liczbie mnogiej, kolumny w pojedynczej
+Primary key - id lub nazwa_tabeli_id
+Foreign key - nazwa_tabeli_id
+Indeksy i constrainty - pk_, fk_, uk_, idx_
+Daty i czas - _at (np. created_at)
+Flagi logiczne - is_, has_
+Czytelne wcięcia i aliasy w zapytaniach
+
+
+-------------------------------------------------------
+
+DML (Data Manipulation Language) - manipulacja danymi
+
+SELECT – wybieranie danych z tabeli.
+INSERT – dodawanie nowych wierszy.
+UPDATE – modyfikacja istniejących wierszy.
+DELETE – usuwanie wierszy.
+REPLACE – działa jak INSERT, ale nadpisuje istniejący wiersz, jeśli klucz główny/unikalny już istnieje.
+
+DDL (Data Definition Language) - definicja danych
+
+CREATE DATABASE – tworzy bazę danych.
+DROP DATABASE – usuwa bazę danych.
+CREATE TABLE – tworzy tabelę.
+ALTER TABLE – zmienia strukturę tabeli (dodaje kolumny, klucze).
+DROP TABLE – usuwa tabelę.
+TRUNCATE TABLE – usuwa wszystkie dane z tabeli (szybciej niż DELETE).
+CREATE INDEX – tworzy indeks.
+DROP INDEX – usuwa indeks.
+
+DCL (Data Control Language) - kontrola dostępu
+
+GRANT – nadanie uprawnień użytkownikowi.
+REVOKE – odebranie uprawnień.
+CREATE USER – tworzy użytkownika.
+DROP USER – usuwa użytkownika.
+SET PASSWORD – ustawia hasło.
+
+TCL (Transaction Control Language) - kontrola transakcji
+
+START TRANSACTION – rozpoczyna transakcję.
+COMMIT – zatwierdza transakcję.
+ROLLBACK – wycofuje transakcję.
+SAVEPOINT – punkt przywracania w transakcji.
+RELEASE SAVEPOINT – usuwa punkt przywracania.
+
+----------------------------------------------------------------
+
+Operatory i warunki:
+
+WHERE – warunki filtrujące.
+AND, OR, NOT – operatory logiczne.
+BETWEEN – sprawdza przedział wartości.
+LIKE – wyszukiwanie wzorca (np. %tekst%).
+IN – sprawdza listę wartości.
+IS NULL – sprawdza brak wartości.
+DISTINCT – zwraca unikalne wiersze.
+ORDER BY – sortowanie.
+GROUP BY – grupowanie wyników.
+HAVING – warunki dla grup (GROUP BY).
+LIMIT – ograniczenie liczby wyników.
+OFFSET – przesunięcie wyników (używane np. przy tzw. paginacji).
+
+----------------------------------------------------------------
+
+JOIN – łączenie tabel.
+INNER JOIN – tylko wspólne rekordy.
+LEFT JOIN – wszystkie z lewej tabeli + dopasowane z prawej.
+RIGHT JOIN – wszystkie z prawej tabeli + dopasowane z lewej.
+
+----------------------------------------------------------------
+
+Funkcje agregujące:
+
+COUNT() – liczba wierszy.
+SUM() – suma wartości.
+AVG() – średnia.
+MIN() – minimum.
+MAX() – maksimum.
+
+----------------------------------------------------------------
+
+Dodatkowe słowa kluczowe w MySQL
+
+DEFAULT – domyślna wartość kolumny.
+AUTO_INCREMENT – automatyczne zwiększanie ID.
+PRIMARY KEY – klucz główny.
+FOREIGN KEY – klucz obcy.
+UNIQUE – unikalne wartości.
+CHECK – warunek sprawdzający dane.
+INDEX – indeks.
+VIEW – widok.
+TRIGGER – wyzwalacz.
+PROCEDURE – procedura składowana.
+FUNCTION – funkcja składowana.
+CURSOR – kursor w procedurach.
+
+----------------------------------------------------------------
+
+Typy danych:
+
+1. Typy liczbowe
+
+INT – liczby całkowite (np. 1, 25, -7).
+BIGINT – bardzo duże liczby całkowite.
+DECIMAL(m,n) – liczby dziesiętne z dokładnością (np. ceny: DECIMAL(10,2)).
+FLOAT / DOUBLE – liczby zmiennoprzecinkowe (np. pomiary).
+BOOLEAN / TINYINT(1) – wartość logiczna (0 = false, 1 = true).
+
+Używamy, gdy chcemy zapisać ilość, cenę, wartości logiczne.
+
+2. Typy tekstowe
+
+CHAR(n) – tekst o stałej długości (rzadziej używane).
+VARCHAR(n) – tekst o zmiennej długości (np. imię, e-mail).
+TEXT – długi tekst (np. opis produktu).
+ENUM – lista dozwolonych wartości (np. status zamówienia).
+
+Używamy do przechowywania nazw, opisów, tekstów, statusów.
+
+3. Typy daty i czasu
+
+DATE – tylko data (RRRR-MM-DD).
+DATETIME – data i czas (RRRR-MM-DD GG:MM:SS).
+TIMESTAMP – data i czas, zapis z uwzględnieniem strefy czasowej.
+TIME – tylko godzina.
+YEAR – tylko rok.
+
+Używamy, aby przechowywać daty rejestracji, logowania, terminy wydarzeń.

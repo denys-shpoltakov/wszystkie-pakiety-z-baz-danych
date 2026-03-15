@@ -1,103 +1,81 @@
-Dobre praktyki projektowania / tworzenia / zarządzania bazami danych:
+ДОБРЫЕ ПРАКТИКИ ПРОЕКТИРОВАНИЯ / СОЗДАНИЯ / УПРАВЛЕНИЯ БАЗАМИ ДАННЫХ
+====================================================================
 
-1. Tworzenie trzech poziomów modelu: konceptualnego, logicznego i fizycznego
+1. Создание трех уровней модели: концептуального, логического и физического
+Рекомендуется подготовить отдельные диаграммы: концептуальную — определяющую общие сущности и бизнес-отношения; логическую — более подробную, независимую от технологий; и физическую — адаптированную к конкретной системе баз данных. Такой подход экономит время во время изменений и облегчает понимание модели другими членами команды.
 
-Zaleca się przygotowanie oddzielnych diagramów: konceptualnego — definiującego ogólne byty i relacje biznesowe; logicznego — bardziej szczegółowego, niezależnego od technologii; oraz fizycznego — dostosowanego do konkretnego systemu bazodanowego. Takie podejście oszczędza czas podczas zmian i ułatwia zrozumienie modelu przez innych członków zespołu.
+2. Применение последовательных конвенций именования
+Названия таблиц, столбцов, ключей и т. д. должны соответствовать установленному шаблону. Это облегчает работу, а изменение имен в работающей базе данных может привести к ошибкам в приложениях или нарушить целостность данных.
 
-2. Stosowanie spójnych konwencji nazewnictwa
+3. Поддержание актуальной документации
+Диаграммы и документация (например, словарь данных) должны постоянно обновляться, чтобы отражать изменения структуры и облегчать ее понимание.
 
-Nazwy tabel, kolumn, kluczy itp. powinny być zgodne z ustalonym wzorem. To ułatwia pracę, a zmiany nazw w działającej bazie mogą powodować błędy w aplikacjach lub łamać integralność danych.
+4. Нормализация данных — минимизация избыточности
+Проектирование должно ограничивать повторение информации и обеспечивать согласованность данных. Хранение повторяющейся информации в отдельных таблицах поддерживает целостность и улучшает производительность.
 
-3. Utrzymywanie aktualnej dokumentacji
+5. Выбор подходящих типов данных и ограничение количества полей
+Выбор оптимальных типов данных и разумное количество столбцов (рекомендации говорят, например, о максимум ок. 150 полях в таблице) влияют на производительность и читаемость.
 
-Diagramy i dokumentacja (np. słownik danych) muszą być na bieżąco aktualizowane, by odzwierciedlać zmiany struktury i ułatwiać jej zrozumienie.
+6. Определение первичных и внешних ключей
+Каждая таблица должна иметь первичный ключ, определяющий уникальную запись, а отношения между таблицами — внешние ключи. Это поддерживает согласованность и обеспечивает логическую связь данных.
 
-4. Normalizacja danych — minimalizacja redundancji
+7. Индексы, ограничения и правила валидации
+Хорошие практики включают использование индексов для более эффективного доступа, ограничений (constraints, например, CHECK, UNIQUE), а также валидацию на уровне таблицы, что улучшает качество данных.
 
-Projektowanie powinno ograniczać powtarzanie informacji i zapewniać spójność danych. Trzymanie powtarzających się informacji w osobnych tabelach wspiera integralność i poprawia wydajność.
+8. Документирование изменений и версионирование схемы
+Проект должен учитывать отслеживание изменений структуры и эволюцию схемы — изменения должны вноситься контролируемо, с отслеживанием версий.
 
-5. Wybór właściwych typów danych i ograniczenie liczby pól
+9. Аудит данных (audit trail)
+Добавление механизмов для отслеживания изменений в данных (например, поля с временем модификации) увеличивает прозрачность и позволяет отслеживать историю записей.
 
-Dobór optymalnych typów danych i rozsądna liczba kolumn (zalecenia mówią np. o maks. ok. 150 polach w tabeli) mają wpływ na wydajność i czytelność.
+10. Модульность и повторное использование компонентов
+Создавайте модульные элементы в БД: хранимые процедуры, представления, триггеры — что позволяет многократно использовать логику и облегчает обслуживание.
 
-6. Definiowanie kluczy głównych i obcych
+11. Простота и сотрудничество между командами
+Ставьте на простоту модели (ее легче использовать пользователям), а также тесно сотрудничайте с администраторами БД (DBA) и программистами — как при проектировании, так и при последующих изменениях.
 
-Każda tabela powinna mieć klucz główny definiujący unikatowy rekord, a relacje między tabelami – klucze obce. Utrzymuje to spójność i umożliwia logiczne powiązanie danych.
+12. Понимание данных и паттернов использования
+Перед проектированием необходимо понять: данные, их связи, способ использования и масштаб. Это предотвращает ошибки и обеспечивает оптимальный проект.
 
-7. Indeksy, ograniczenia i reguły walidacji
+13. Противодействие ловушкам моделирования — 'fan trap' и 'chasm trap'
+ERD (диаграмма сущность-связь) может вводить в заблуждение, если отношения построены неправильно. Fan trap (ловушка веера) заключается в неожиданном подсчете связей, а chasm trap (ловушка пропасти) — в пропущенных связях между сущностями.
 
-Dobre praktyki obejmują stosowanie indeksów dla wydajniejszego dostępu, constraints (np. CHECK, UNIQUE), oraz walidacji na poziomie tabeli, co poprawia jakość danych.
+14. Принцип ортогонального проектирования (POOD)
+Отношения следует определять так, чтобы не представлять одни и те же факты разными способами — это устраняет избыточность и неоднозначность.
 
-8. Dokumentowanie zmian i wersjonowanie schematu
+15. Рефакторинг схемы базы данных
+Изменения в схеме (рефакторинг) следует вводить так, чтобы не менять семантику данных, т. е. система должна продолжать работать корректно на каждой фазе изменений.
 
-Projekt musi uwzględniać śledzenie zmian struktury i ewolucję schematu — zmiany powinny być wprowadzane kontrolowanie, ze śledzeniem wersji.
-
-9. Audyt danych (audit trail)
-
-Dodanie mechanizmów do śledzenia zmian w danych (np. pola z czasem modyfikacji) zwiększa transparentność i umożliwia śledzenie historii rekordów.
-
-10. Modularność i ponowne użycie komponentów
-
-Twórz modułowe elementy w DB: procedury składowane, widoki, trigger’y — co umożliwia wielokrotne wykorzystanie logiki i ułatwia utrzymanie.
-
-11. Prostota i współpraca między zespołami
-
-Stawiaj na prostotę modelu (łatwiejszy w użyciu przez użytkowników), a także współpracuj ściśle z DBA i programistami — zarówno przy projektowaniu, jak i późniejszych zmianach.
-
-12. Zrozumienie danych i wzorców użycia
-
-Przed projektowaniem konieczne jest zrozumienie: danych, ich powiązań, sposobu użycia i skali. To zapobiega błędom i zapewnia optymalny projekt.
-
-13. Przeciwdziałanie pułapkom modelowania — 'fan trap' i 'chasm trap'
-
-ERD może wprowadzać w błąd, jeśli relacje są źle skonstruowane. Fan trap polega na niespodziewanym zliczaniu powiązań, a chasm trap — na pominiętych powiązaniach między encjami.
-
-14. Zasada ortogonalnego projektowania (POOD)
-
-Relacje należy definiować tak, by nie przedstawiać tych samych faktów na różne sposoby — to eliminuje redundancję i niejednoznaczność.
-
-15. Refaktoryzacja schematu bazy danych
-
-Zmiany w schemacie (refaktoryzacja) należy wprowadzać tak, aby nie zmieniać semantyki danych, tj. system powinien nadal działać poprawnie w każdej fazie zmian.
-
-16. Modelowanie Data Vault (dla hurtowni danych)
-
-W przypadku hurtowni danych stosuje się model Data Vault — umożliwia przechowywanie wszystkich danych (również niespójnych), z audytem i śledzeniem źródeł, co poprawia skalowalność i elastyczność.
-
+16. Моделирование Data Vault (для хранилищ данных)
+В случае хранилищ данных применяется модель Data Vault — она позволяет хранить все данные (в том числе несогласованные), с аудитом и отслеживанием источников, что улучшает масштабируемость и гибкость.
 
 -------------------------------------------------------------------------------------------------------------------------------
 
-Dobre praktyki odnośnie nazewnictwa tabel / wierszy / zapytań SQL
+ХОРОШИЕ ПРАКТИКИ ОТНОСИТЕЛЬНО ИМЕНОВАНИЯ ТАБЛИЦ / СТРОК / SQL-ЗАПРОСОВ
 
-1. Wielkość liter w SQL
+1. Регистр букв в SQL
+Ключевые слова SQL (например, SELECT, FROM, WHERE, JOIN, INSERT, UPDATE) - ЗАГЛАВНЫЕ БУКВЫ.
+Благодаря этому они читабельны и их легко отличить от названий таблиц и столбцов.
 
-Słowa kluczowe SQL (np. SELECT, FROM, WHERE, JOIN, INSERT, UPDATE) - WIELKIE LITERY
-Dzięki temu są czytelne i łatwo odróżnić je od nazw tabel i kolumn.
+Названия таблиц и столбцов - строчные буквы.
+Последовательное использование строчных букв предотвращает проблемы в системах, чувствительных к регистру (например, Linux + MySQL).
 
-Nazwy tabel i kolumn - małe litery
-Konsekwentne używanie małych liter zapobiega problemom w systemach wrażliwych na wielkość liter (np. Linux + MySQL).
-
-Przykład dobrego zapytania: 
-
+Пример хорошего запроса: 
 SELECT first_name, last_name
 FROM users
 WHERE status = 'active';
 
-Przykład błędnego stylu:
-
+Пример ошибочного стиля:
 select FirstName, LastName
 From Users
 where Status = 'active';
 
 
+2. Множественное или единственное число?
+Таблицы - множественное число (так как содержат много записей, например, users, orders, products).
+Столбцы - единственное число (так как описывают одиночный атрибут записи, например, user_id, price, created_at).
 
-2. Liczba mnoga czy pojedyncza?
-
-Tabele - liczba mnoga (bo zawierają wiele rekordów, np. users, orders, products).
-Kolumny - liczba pojedyncza (bo opisują pojedynczy atrybut rekordu, np. user_id, price, created_at).
-
-Przykład poprawnego nazewnictwa (według konwencji):
-
+Пример правильного именования (согласно конвенции):
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50),
@@ -105,29 +83,24 @@ CREATE TABLE users (
     email VARCHAR(100) UNIQUE
 );
 
-
-Przykład niepoprawnego zapytania:
-CREATE TABLE user (  -- liczba pojedyncza, nie pasuje do zbioru danych
-    users_id INT,    -- liczba mnoga w kolumnie
+Пример неправильного запроса:
+CREATE TABLE user (  -- единственное число, не подходит для набора данных
+    users_id INT,    -- множественное число в колонке
     names VARCHAR(50)
 );
 
 
-3. Nazewnictwo kluczy i kolumn
-Klucze główne (Primary Key)
+3. Именование ключей и столбцов
+Первичные ключи (Primary Key)
+Имя: id или название_таблицы_id
+Если таблица основная (например, users), можно использовать просто id.
+В промежуточных таблицах (например, order_items) лучше использовать полное имя: order_item_id.
 
-Nazwa: id albo nazwa_tabeli_id
+Внешние ключи (Foreign Key)
+Имя: название_таблицы_id
+например, в таблице orders - user_id (связь с users.id).
 
-Jeśli tabela jest główna (np. users), można użyć po prostu id.
-
-W tabelach pośrednich (np. order_items) lepiej użyć pełnej nazwy: order_item_id.
-
-Klucze obce (Foreign Key)
-
-Nazwa: nazwa_tabeli_id
-np. w tabeli orders - user_id (powiązanie z users.id).
-
-Przykład:
+Пример:
 CREATE TABLE orders (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -137,24 +110,22 @@ CREATE TABLE orders (
 );
 
 
-4. Nazwy kolumn
+4. Названия столбцов
+- Читаемые, описательные, строчные буквы.
+- Snake_case (подчеркивания) вместо camelCase (first_name, а не firstName).
+- Не используйте национальные символы (например, польские или русские буквы) или пробелы (imie вместо imię).
+- Не используйте зарезервированные слова (например, order, select, group). Если необходимо, используйте обратные кавычки: `order`.
+- Даты и время -> с суффиксами _at (created_at, updated_at).
+- Флаги/логические -> префикс is_ или has_ (is_active, has_discount).
+- Суммы, числовые значения -> описательные единицы (price, quantity, amount).
 
-Czytelne, opisowe, małe litery.
-Snake_case (podkreślenia) zamiast camelCase (first_name, nie firstName).
-Nie używaj polskich znaków ani spacji (imie zamiast imię).
-Nie używaj słów zastrzeżonych (np. order, select, group). Jeśli musisz, używaj backticków: `order`.
-Daty i czas → z sufiksami _at (created_at, updated_at).
-Flagi/logiczne → prefiks is_ lub has_ (is_active, has_discount).
-Kwoty, wartości liczbowe → opisowe jednostki (price, quantity, amount).
+5. Именование индексов, констрейнтов и отношений
+Primary Key -> pk_nazwatabeli
+Foreign Key -> fk_tabela_kolumna
+Unique Key -> uk_tabela_kolumna
+Индекс -> idx_tabela_kolumna
 
-5. Nazewnictwo indeksów, constraintów i relacji
-
-Primary Key → pk_nazwatabeli
-Foreign Key → fk_tabela_kolumna
-Unique Key → uk_tabela_kolumna
-Indeks → idx_tabela_kolumna
-
-Przykład:
+Пример:
 CREATE TABLE products (
     product_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -170,13 +141,12 @@ CREATE TABLE order_items (
     FOREIGN KEY fk_order_items_product (product_id) REFERENCES products(product_id)
 );
 
-6. Styl zapytań
+6. Стиль запросов
+- Отступы и форматирование: каждая клаузула (SELECT, FROM, WHERE, JOIN) в новой строке.
+- Алиасы таблиц: короткие, но читаемые (u для users, o для orders).
+- JOIN-ы: явно (INNER JOIN, LEFT JOIN), а не через запятые.
 
-Wcięcia i formatowanie: każda klauzula (SELECT, FROM, WHERE, JOIN) w nowej linii.
-Aliasowanie tabel: krótkie, ale czytelne (u dla users, o dla orders).
-JOIN-y: jawnie (INNER JOIN, LEFT JOIN), nie przecinki.
-
-Przykład dobrego stylu zapytania:
+Пример хорошего стиля запроса:
 SELECT o.order_id, u.first_name, u.last_name, p.name, oi.quantity
 FROM orders o
 INNER JOIN users u ON o.user_id = u.id
@@ -185,143 +155,128 @@ INNER JOIN products p ON oi.product_id = p.product_id
 WHERE u.is_active = 1
 ORDER BY o.created_at DESC;
 
-Przykład mniej czytelnego zapytania:
+Пример менее читаемого запроса:
 SELECT orders.order_id, users.firstName, products.name
 FROM orders, users, order_items, products
 WHERE orders.userId = users.id
 AND order_items.orderId = orders.id
 AND order_items.productId = products.id;
 
-7. Checklista dobrych praktyk:
-
-Słowa kluczowe SQL - WIELKIE LITERY
-Nazwy tabel i kolumn - małe litery, snake_case
-Tabele w liczbie mnogiej, kolumny w pojedynczej
-Primary key - id lub nazwa_tabeli_id
-Foreign key - nazwa_tabeli_id
-Indeksy i constrainty - pk_, fk_, uk_, idx_
-Daty i czas - _at (np. created_at)
-Flagi logiczne - is_, has_
-Czytelne wcięcia i aliasy w zapytaniach
-
+7. Чек-лист хороших практик:
+- Ключевые слова SQL - ЗАГЛАВНЫЕ БУКВЫ
+- Названия таблиц и столбцов - строчные буквы, snake_case
+- Таблицы во множественном числе, колонки в единственном
+- Primary key - id или название_таблицы_id
+- Foreign key - название_таблицы_id
+- Индексы и констрейнты - pk_, fk_, uk_, idx_
+- Даты и время - _at (например, created_at)
+- Логические флаги - is_, has_
+- Читаемые отступы и алиасы в запросах
 
 -------------------------------------------------------
 
-DML (Data Manipulation Language) - manipulacja danymi
+DML (Data Manipulation Language) - манипуляция данными
+SELECT – выборка данных из таблицы.
+INSERT – добавление новых строк.
+UPDATE – модификация существующих строк.
+DELETE – удаление строк.
+REPLACE – работает как INSERT, но перезаписывает строку, если первичный/уникальный ключ уже существует.
 
-SELECT – wybieranie danych z tabeli.
-INSERT – dodawanie nowych wierszy.
-UPDATE – modyfikacja istniejących wierszy.
-DELETE – usuwanie wierszy.
-REPLACE – działa jak INSERT, ale nadpisuje istniejący wiersz, jeśli klucz główny/unikalny już istnieje.
+DDL (Data Definition Language) - определение данных
+CREATE DATABASE – создает базу данных.
+DROP DATABASE – удаляет базу данных.
+CREATE TABLE – создает таблицу.
+ALTER TABLE – изменяет структуру таблицы (добавляет колонки, ключи).
+DROP TABLE – удаляет таблицу.
+TRUNCATE TABLE – удаляет все данные из таблицы (быстрее, чем DELETE).
+CREATE INDEX – создает индекс.
+DROP INDEX – удаляет индекс.
 
-DDL (Data Definition Language) - definicja danych
+DCL (Data Control Language) - контроль доступа
+GRANT – предоставление прав пользователю.
+REVOKE – отзыв прав.
+CREATE USER – создает пользователя.
+DROP USER – удаляет пользователя.
+SET PASSWORD – устанавливает пароль.
 
-CREATE DATABASE – tworzy bazę danych.
-DROP DATABASE – usuwa bazę danych.
-CREATE TABLE – tworzy tabelę.
-ALTER TABLE – zmienia strukturę tabeli (dodaje kolumny, klucze).
-DROP TABLE – usuwa tabelę.
-TRUNCATE TABLE – usuwa wszystkie dane z tabeli (szybciej niż DELETE).
-CREATE INDEX – tworzy indeks.
-DROP INDEX – usuwa indeks.
-
-DCL (Data Control Language) - kontrola dostępu
-
-GRANT – nadanie uprawnień użytkownikowi.
-REVOKE – odebranie uprawnień.
-CREATE USER – tworzy użytkownika.
-DROP USER – usuwa użytkownika.
-SET PASSWORD – ustawia hasło.
-
-TCL (Transaction Control Language) - kontrola transakcji
-
-START TRANSACTION – rozpoczyna transakcję.
-COMMIT – zatwierdza transakcję.
-ROLLBACK – wycofuje transakcję.
-SAVEPOINT – punkt przywracania w transakcji.
-RELEASE SAVEPOINT – usuwa punkt przywracania.
+TCL (Transaction Control Language) - управление транзакциями
+START TRANSACTION – начинает транзакцию.
+COMMIT – подтверждает транзакцию.
+ROLLBACK – откатывает транзакцию.
+SAVEPOINT – точка сохранения внутри транзакции.
+RELEASE SAVEPOINT – удаляет точку сохранения.
 
 ----------------------------------------------------------------
 
-Operatory i warunki:
-
-WHERE – warunki filtrujące.
-AND, OR, NOT – operatory logiczne.
-BETWEEN – sprawdza przedział wartości.
-LIKE – wyszukiwanie wzorca (np. %tekst%).
-IN – sprawdza listę wartości.
-IS NULL – sprawdza brak wartości.
-DISTINCT – zwraca unikalne wiersze.
-ORDER BY – sortowanie.
-GROUP BY – grupowanie wyników.
-HAVING – warunki dla grup (GROUP BY).
-LIMIT – ograniczenie liczby wyników.
-OFFSET – przesunięcie wyników (używane np. przy tzw. paginacji).
-
-----------------------------------------------------------------
-
-JOIN – łączenie tabel.
-INNER JOIN – tylko wspólne rekordy.
-LEFT JOIN – wszystkie z lewej tabeli + dopasowane z prawej.
-RIGHT JOIN – wszystkie z prawej tabeli + dopasowane z lewej.
+Операторы и условия:
+WHERE – условия фильтрации.
+AND, OR, NOT – логические операторы.
+BETWEEN – проверяет диапазон значений.
+LIKE – поиск по шаблону (например, %текст%).
+IN – проверяет список значений.
+IS NULL – проверяет отсутствие значения.
+DISTINCT – возвращает уникальные строки.
+ORDER BY – сортировка.
+GROUP BY – группировка результатов.
+HAVING – условия для групп (после GROUP BY).
+LIMIT – ограничение количества результатов.
+OFFSET – смещение результатов (используется, например, для пагинации).
 
 ----------------------------------------------------------------
 
-Funkcje agregujące:
-
-COUNT() – liczba wierszy.
-SUM() – suma wartości.
-AVG() – średnia.
-MIN() – minimum.
-MAX() – maksimum.
+JOIN – объединение таблиц.
+INNER JOIN – только общие записи.
+LEFT JOIN – все из левой таблицы + соответствующие из правой.
+RIGHT JOIN – все из правой таблицы + соответствующие из левой.
 
 ----------------------------------------------------------------
 
-Dodatkowe słowa kluczowe w MySQL
-
-DEFAULT – domyślna wartość kolumny.
-AUTO_INCREMENT – automatyczne zwiększanie ID.
-PRIMARY KEY – klucz główny.
-FOREIGN KEY – klucz obcy.
-UNIQUE – unikalne wartości.
-CHECK – warunek sprawdzający dane.
-INDEX – indeks.
-VIEW – widok.
-TRIGGER – wyzwalacz.
-PROCEDURE – procedura składowana.
-FUNCTION – funkcja składowana.
-CURSOR – kursor w procedurach.
+Агрегатные функции:
+COUNT() – количество строк.
+SUM() – сумма значений.
+AVG() – среднее значение.
+MIN() – минимум.
+MAX() – максимум.
 
 ----------------------------------------------------------------
 
-Typy danych:
+Дополнительные ключевые слова в MySQL
+DEFAULT – значение колонки по умолчанию.
+AUTO_INCREMENT – автоматическое увеличение ID.
+PRIMARY KEY – первичный ключ.
+FOREIGN KEY – внешний ключ.
+UNIQUE – уникальные значения.
+CHECK – условие проверки данных.
+INDEX – индекс.
+VIEW – представление.
+TRIGGER – триггер.
+PROCEDURE – хранимая процедура.
+FUNCTION – хранимая функция.
+CURSOR – курсор в процедурах.
 
-1. Typy liczbowe
+----------------------------------------------------------------
 
-INT – liczby całkowite (np. 1, 25, -7).
-BIGINT – bardzo duże liczby całkowite.
-DECIMAL(m,n) – liczby dziesiętne z dokładnością (np. ceny: DECIMAL(10,2)).
-FLOAT / DOUBLE – liczby zmiennoprzecinkowe (np. pomiary).
-BOOLEAN / TINYINT(1) – wartość logiczna (0 = false, 1 = true).
+Типы данных:
 
-Używamy, gdy chcemy zapisać ilość, cenę, wartości logiczne.
+1. Числовые типы
+INT – целые числа (например, 1, 25, -7).
+BIGINT – очень большие целые числа.
+DECIMAL(m,n) – десятичные числа с точностью (например, цены: DECIMAL(10,2)).
+FLOAT / DOUBLE – числа с плавающей точкой (например, измерения).
+BOOLEAN / TINYINT(1) – логическое значение (0 = false, 1 = true).
+Используем, когда хотим сохранить количество, цену, логические значения.
 
-2. Typy tekstowe
+2. Текстовые типы
+CHAR(n) – текст фиксированной длины (используется реже).
+VARCHAR(n) – текст переменной длины (например, имя, e-mail).
+TEXT – длинный текст (например, описание продукта).
+ENUM – список разрешенных значений (например, статус заказа).
+Используем для хранения имен, описаний, текстов, статусов.
 
-CHAR(n) – tekst o stałej długości (rzadziej używane).
-VARCHAR(n) – tekst o zmiennej długości (np. imię, e-mail).
-TEXT – długi tekst (np. opis produktu).
-ENUM – lista dozwolonych wartości (np. status zamówienia).
-
-Używamy do przechowywania nazw, opisów, tekstów, statusów.
-
-3. Typy daty i czasu
-
-DATE – tylko data (RRRR-MM-DD).
-DATETIME – data i czas (RRRR-MM-DD GG:MM:SS).
-TIMESTAMP – data i czas, zapis z uwzględnieniem strefy czasowej.
-TIME – tylko godzina.
-YEAR – tylko rok.
-
-Używamy, aby przechowywać daty rejestracji, logowania, terminy wydarzeń.
+3. Типы даты и времени
+DATE – только дата (ГГГГ-ММ-ДД).
+DATETIME – дата и время (ГГГГ-ММ-ДД ЧЧ:ММ:СС).
+TIMESTAMP – дата и время, сохранение с учетом временной зоны.
+TIME – только время.
+YEAR – только год.
+Используем для хранения даты регистрации, логина, времени событий.

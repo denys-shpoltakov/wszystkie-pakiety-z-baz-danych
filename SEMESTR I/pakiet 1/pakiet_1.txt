@@ -1,48 +1,63 @@
-Do wykorzystania baza sakila.
-Cel - ćwiczenie podstawowych komend SQL:
+ПРАКТИЧЕСКИЕ ЗАДАНИЯ ПО SQL (БАЗА ДАННЫХ SAKILA)
+================================================
 
-INSERT/UPDATE/DELETE/SELECT,
-LIKE (dopasowanie tekstu),
-LIMIT i OFFSET (paginacja).
+ЦЕЛЬ: Отработка базовых команд SQL:
+- INSERT (Вставка), UPDATE (Обновление), DELETE (Удаление), SELECT (Выборка)
+- LIKE (Поиск по шаблону)
+- LIMIT и OFFSET (Пагинация)
 
-------------------------------------------------------
+--------------------------------------------------------------------
+1. ВСТАВКА ДАННЫХ (INSERT)
+--------------------------------------------------------------------
 
-Dodaj nowego aktora do tabeli actor o imieniu John i nazwisku Smith.
-Dodaj nowego klienta do tabeli customer (np. imię, nazwisko, email, przypisz do istniejącego store_id).
-Dodaj nowy film do tabeli film o tytule Learning SQL, kategorii edukacyjnej i czasie trwania 90 minut.
-Dodaj nową kategorię do tabeli category o nazwie Programming.
-Dodaj nowego pracownika do tabeli staff.
+* Добавьте нового актера в таблицу 'actor' с именем John и фамилией Smith.
+* Добавьте нового клиента в таблицу 'customer' (укажите имя, фамилию, email и привяжите к существующему store_id).
+* Добавьте новый фильм в таблицу 'film' с названием "Learning SQL", продолжительностью 90 минут (также укажите rental_duration и language_id для корректности).
+* Добавьте новую категорию в таблицу 'category' под названием "Programming".
+* Добавьте нового сотрудника в таблицу 'staff' (не забудьте указать address_id, store_id и username).
 
-Zmień nazwisko aktora o actor_id = 5 na Johnson (tabela actor).
-Zmień adres klienta (address_id) na inny, np. przypisz go do innego miasta w tabeli address.
-Zaktualizuj opłatę za wypożyczenie (rental_rate) dla filmu o film_id = 10 na 4.99 (tabela film).
-Zmień active na 0 dla klienta, który nie dokonał żadnej płatności (tabela customer).
-Zmień nazwę kategorii Horror na Thriller.
+--------------------------------------------------------------------
+2. ОБНОВЛЕНИЕ ДАННЫХ (UPDATE)
+--------------------------------------------------------------------
 
-Usuń aktora o actor_id = 200.
-Usuń film o film_id = 100 (upewnij się, że trzeba wcześniej usunąć powiązania w film_actor).
-Usuń klienta, który nie dokonał żadnej płatności (payment).
-Usuń kategorię, która nie jest przypisana do żadnego filmu.
-Usuń pracownika o staff_id = 2.
+* Измените фамилию актера с actor_id = 5 на "Johnson" (таблица 'actor').
+* Измените адрес клиента (address_id) на другой (например, привяжите его к адресу в другом городе из таблицы 'address').
+* Обновите стоимость аренды (rental_rate) для фильма с film_id = 10 на 4.99 (таблица 'film').
+* Установите значение active = 0 для клиента, который не совершил ни одного платежа (таблица 'customer').
+* Измените название категории "Horror" на "Thriller" (таблица 'category').
 
-Wyświetl wszystkich aktorów o nazwisku Smith.
-Znajdź wszystkie filmy, które trwają dłużej niż 120 minut.
-Pokaż listę klientów z miasta Warsaw (zakładając, że istnieje w tabeli city).
-Wyświetl 10 najdroższych filmów (rental_rate) posortowanych malejąco.
-Znajdź wszystkich klientów, którzy są aktywni (active = 1) i mieszkają w kraju Poland.
+--------------------------------------------------------------------
+3. УДАЛЕНИЕ ДАННЫХ (DELETE)
+--------------------------------------------------------------------
 
-Tabela actor
-Wyświetl wszystkich aktorów, których imię zaczyna się na literę A.
+* Удалите актера с actor_id = 200.
+* Удалите фильм с film_id = 100 (Внимание: сначала необходимо удалить связанные записи в таблицах 'film_actor' и 'film_category').
+* Удалите клиента, который не совершил ни одного платежа (проверка по таблице 'payment').
+* Удалите категорию, которая не назначена ни одному фильму.
+* Удалите сотрудника с staff_id = 2.
 
-Tabela customer
-Wyświetl klientów, których adres e-mail kończy się na @gmail.com.
+--------------------------------------------------------------------
+4. ВЫБОРКА ДАННЫХ (SELECT)
+--------------------------------------------------------------------
 
-Tabela film
-Znajdź wszystkie filmy, których tytuł zawiera słowo DOG.
-Tabela film
-Wyświetl pierwsze 5 filmów (użyj LIMIT 5).
+* Выведите всех актеров с фамилией "Smith".
+* Найдите все фильмы, продолжительность которых превышает 120 минут.
+* Покажите список клиентов из города "Warsaw" (используйте JOIN таблиц customer -> address -> city).
+* Выведите 10 самых дорогих фильмов по стоимости аренды (rental_rate), отсортированных по убыванию.
+* Найдите всех активных клиентов (active = 1), которые живут в стране "Poland" (используйте JOIN таблиц customer -> address -> city -> country).
 
-Tabela customer
-Wyświetl pierwszych 10 klientów posortowanych alfabetycznie po nazwisku
-Tabela customer
-Wyświetl kolejnych 10 klientów (czyli klientów od 11. do 20. w posortowanej liście), używając LIMIT i OFFSET.
+--------------------------------------------------------------------
+5. ОПЕРАТОР LIKE (ПОИСК ПО ШАБЛОНУ)
+--------------------------------------------------------------------
+
+* Таблица 'actor': Выведите всех актеров, имя которых начинается на букву "A".
+* Таблица 'customer': Выведите клиентов, чей адрес электронной почты заканчивается на "@gmail.com".
+* Таблица 'film': Найдите все фильмы, в названии которых содержится слово "DOG".
+
+--------------------------------------------------------------------
+6. ПАГИНАЦИЯ (LIMIT & OFFSET)
+--------------------------------------------------------------------
+
+* Таблица 'film': Выведите первые 5 фильмов (используйте LIMIT 5).
+* Таблица 'customer': Выведите первых 10 клиентов, отсортированных по фамилии в алфавитном порядке.
+* Таблица 'customer': Выведите следующих 10 клиентов (с 11-го по 20-й в отсортированном списке), используя связку LIMIT и OFFSET.
